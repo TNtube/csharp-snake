@@ -5,8 +5,8 @@ namespace snake {
     class Program {
         static void PrintGrid(List<List<int>> grid) {
             // permit to draw the grid in the console
-            string foo = new string('*', grid[0].Count*2+2);
-            Console.WriteLine(foo);
+            string grid_limits = new string('*', grid[0].Count*2+2);
+            Console.WriteLine(grid_limits);
             foreach (List<int> line in grid) {
                 Console.Write("*");
                 foreach (int cell in line) {
@@ -23,7 +23,7 @@ namespace snake {
                 Console.Write("*");
                 Console.WriteLine();
             }
-            Console.WriteLine(foo);
+            Console.WriteLine(grid_limits);
         }
         static List<List<int>> CreateGrid(int width, int height) {
             // retrun an initial grid, with a width and a height at choice
@@ -77,29 +77,29 @@ namespace snake {
             int height = 20;
             
             Random rand = new Random();
-            (int, int) apple = (rand.Next(0, width), rand.Next(0, height));
+            (int, int) applePos = (rand.Next(0, width), rand.Next(0, height));
             int xVelocity = 1;
             int yVelocity = 0;
             
-            List<List<int>> grid = NextGrid(CreateGrid(width, height), snake, apple);
+            List<List<int>> grid = NextGrid(CreateGrid(width, height), snake, applePos);
             bool Running = true;
             
             // gameplay loop, where every actions are mades
             while (Running) {
                 Console.Clear();
                 int SnakeLen = snake.Count;
-                snake = NextSnake(snake, apple, xVelocity, yVelocity);
-                grid = NextGrid(grid, snake, apple);
+                snake = NextSnake(snake, applePos, xVelocity, yVelocity);
+                grid = NextGrid(grid, snake, applePos);
                 PrintGrid(grid);
                 Console.WriteLine($"Score :{score}");
                 DateTime time = DateTime.Now;
 
                 if (snake.Count != SnakeLen) {
-                    apple = (rand.Next(0, width), rand.Next(0, height));
+                    applePos = (rand.Next(0, width), rand.Next(0, height));
                     score++;
                 }
                 
-                // evenement loop, to recup the keyboard input in real time
+                // evenement loop, to get the keyboard input in real time
                 while (true) {
                     DateTime time2 = DateTime.Now;
                     if (time2.Subtract(time).TotalMilliseconds > 75) {
